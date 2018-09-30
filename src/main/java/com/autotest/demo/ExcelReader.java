@@ -25,6 +25,7 @@ public class ExcelReader {
             System.out.println("工作表名称"+sheetName);
             // 得到总行数
             int rowNum = ExcelWSheet.getLastRowNum();
+            System.out.println("工作表行数"+rowNum);
             List<String[]> results = new ArrayList<String[]>();
             for (int i = 1; i <= rowNum; i++) {
                 // 当前行
@@ -35,6 +36,7 @@ public class ExcelReader {
                 for (int j = 0; j < colNum; j++) {
                     try {
                         data[j] = getCellValue(row.getCell(j));
+                        System.out.println("内容"+data[j]);
                     } catch (NullPointerException e) { // 如果单元格为空的时候，则用这个来处理
                         data[j] = "";
                     }
@@ -59,6 +61,7 @@ public class ExcelReader {
     public static String getCellValue(XSSFCell xssfCell) {
         String cellValue = "";
         DecimalFormat df = new DecimalFormat("#");
+        System.out.println("xssfCell.getCellType()"+xssfCell.getCellType());
         switch (xssfCell.getCellType()) {
             case HSSFCell.CELL_TYPE_STRING:
                 cellValue = xssfCell.getRichStringCellValue().getString().trim();
@@ -72,9 +75,20 @@ public class ExcelReader {
             case HSSFCell.CELL_TYPE_FORMULA:
                 cellValue = xssfCell.getCellFormula();
                 break;
+
             default:
                 cellValue = "";
         }
         return cellValue;
+    }
+
+
+
+
+    public static void main(String[] args){
+        String file = "/Users/denglulu/git/UITest/resources/testData.xlsx";
+
+        Object[][] records = getExpectationData(file,"transferData");
+        //System.out.println(records.length);
     }
 }

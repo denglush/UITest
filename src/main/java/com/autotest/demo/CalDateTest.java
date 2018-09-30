@@ -32,7 +32,8 @@ public class CalDateTest {
                 {"法定年假", "2018-10-08 10:00:00", "2018-10-09 15:20:00", 16},
                 {"法定年假", "2018-10-08 10:00:00", "2018-10-09 15:00:00", 12},
                 {"法定年假", "2018-10-08 12:00:00", "2018-10-08 15:20:00", 8},
-                {"法定年假", "2018-10-08 15:00:00", "2018-10-09 19:00:00", 12}
+                {"法定年假", "2018-10-08 15:00:00", "2018-10-09 19:00:00", 12},
+                {"法定年假", "2018-10-08 15:00:00", "2018-10-08 20:00:00", 4}
         };
 
     }
@@ -44,14 +45,14 @@ public class CalDateTest {
         list.add(new BasicNameValuePair("times[1]",end));
         list.add(new BasicNameValuePair("type",type));
         String result = HttpUtils.doGet(url,list);
-        System.out.println(result);
 
 
         JSONObject jsonObject = JSONObject.fromObject(result);
-
+        System.out.println("---------数据比较----------");
+        System.out.println("预期时长："+expect);
 
         int hour = jsonObject.getJSONObject("data").getInt("hour");
-
+        System.out.println("返回时长："+hour);
         Assert.assertEquals(expect,hour,"数据不相等");
     }
 
